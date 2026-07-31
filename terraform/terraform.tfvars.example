@@ -1,0 +1,2 @@
+﻿proxmox_endpoint  = "https://192.168.200.10:8006/"
+proxmox_api_token = "USER@REALM!TOKENID=SECRET_UUID"

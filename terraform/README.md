@@ -69,6 +69,40 @@ Cree les 3 VMs et genere automatiquement inventory.ini pour Ansible.
 
 Doit retourner un statut ok.
 
+## Configuration Ansible
+
+Le dossier `ansible/` contient l'inventaire et le playbook de configuration des VMs, rapatries depuis le serveur d'administration (`app-01`).
+
+### Structure
+
+```text
+ansible/
+├── inventory.ini        # Inventaire des serveurs (web, app, db)
+├── playbooks/
+│   └── site.yml         # Playbook principal (Nginx, upgrades, PostgreSQL)
+└── README.md            # Documentation detaillee de la partie Ansible
+```
+
+### Inventory
+
+L'inventaire definit les 3 noeuds de l'infrastructure :
+
+- **web** (`192.168.200.51`) : serveur Web Nginx
+- **app** (`192.168.200.52`) : serveur applicatif FastAPI / Python 3.12
+- **db**  (`192.168.200.53`) : serveur base de donnees PostgreSQL 16
+
+Les connexions SSH utilisent la cle `~/.ssh/id_ed25519` (reference de chemin, pas de secret commite).
+
+### Execution du playbook
+
+Depuis le dossier `ansible/` (ou depuis `app-01` ou toute machine ayant acces SSH aux VMs) :
+
+```bash
+ansible-playbook -i inventory.ini playbooks/site.yml
+```
+
+Voir `ansible/README.md` pour plus de details.
+
 ## Detruire l'infrastructure
 
     terraform destroy

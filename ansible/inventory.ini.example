@@ -1,3 +1,8 @@
+# Exemple d'inventaire Ansible
+# Copier ce fichier : cp inventory.ini.example inventory.ini
+# Adapter les IPs selon votre deploiement (valeurs par defaut = architecture documentee)
+# Alternative : recuperer l'inventaire genere par Terraform (terraform/inventory.ini apres apply)
+
 [web]
 192.168.200.51 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_ed25519
 

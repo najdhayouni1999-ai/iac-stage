@@ -29,11 +29,12 @@ Toutes les VMs sont clonees depuis un template cloud-init Ubuntu 24.04 (VMID 900
 - provider.tf : configuration du provider bpg/proxmox
 - variables.tf : variables globales (endpoint, token API)
 - terraform.tfvars.example : modele de variables (a copier en .tfvars)
-- main.tf : instanciation des 3 VMs via le module
+- main.tf : instanciation des 3 VMs via le module + generation automatique de l'inventaire Ansible
 - outputs.tf : IPs exposees en sortie
-- inventory.tf : generation automatique de l'inventaire Ansible
 - templates/inventory.tpl : modele d'inventaire Ansible
 - modules/vm/ : module Terraform reutilisable (main.tf, variables.tf, outputs.tf, versions.tf)
+
+Voir aussi le [README principal](../README.md) pour la vue d'ensemble du projet.
 
 ## Deploiement
 
@@ -61,6 +62,8 @@ Cree les 3 VMs et genere automatiquement inventory.ini pour Ansible.
 
 ### 5. Configurer les VMs via Ansible
 
+    cd ../ansible
+    cp inventory.ini.example inventory.ini
     ansible-playbook -i inventory.ini playbooks/site.yml
 
 ### 6. Verifier le deploiement
@@ -77,10 +80,10 @@ Le dossier `ansible/` contient l'inventaire et le playbook de configuration des 
 
 ```text
 ansible/
-├── inventory.ini        # Inventaire des serveurs (web, app, db)
+├── inventory.ini.example  # Modele d'inventaire (a copier en inventory.ini)
 ├── playbooks/
-│   └── site.yml         # Playbook principal (Nginx, upgrades, PostgreSQL)
-└── README.md            # Documentation detaillee de la partie Ansible
+│   └── site.yml           # Playbook principal (Nginx, upgrades, PostgreSQL)
+└── README.md              # Documentation detaillee de la partie Ansible
 ```
 
 ### Inventory
@@ -98,6 +101,7 @@ Les connexions SSH utilisent la cle `~/.ssh/id_ed25519` (reference de chemin, pa
 Depuis le dossier `ansible/` (ou depuis `app-01` ou toute machine ayant acces SSH aux VMs) :
 
 ```bash
+cp inventory.ini.example inventory.ini
 ansible-playbook -i inventory.ini playbooks/site.yml
 ```
 

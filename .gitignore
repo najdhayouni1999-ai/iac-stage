@@ -1,5 +1,9 @@
-﻿terraform/terraform.tfvars
+terraform/terraform.tfvars
 terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.backup
 terraform/.terraform.lock.hcl
+
+# Ansible
+ansible/*.retry
+ansible/vault.yml

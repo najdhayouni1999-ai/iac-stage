@@ -1,0 +1,55 @@
+---
+- name: Configuration serveur WEB (Nginx)
+  hosts: web
+  become: true
+  tasks:
+    - name: Mettre a jour le cache apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Installer nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Demarrer et activer nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
+
+- name: Configuration serveur APPLICATIF
+  hosts: app
+  become: true
+  tasks:
+    - name: Mettre a jour le cache apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Upgrade des paquets existants
+      apt:
+        upgrade: safe
+
+- name: Configuration BASE DE DONNEES (PostgreSQL)
+  hosts: db
+  become: true
+  tasks:
+    - name: Mettre a jour le cache apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Installer PostgreSQL
+      apt:
+        name:
+          - postgresql
+          - postgresql-contrib
+        state: present
+
+    - name: Demarrer et activer PostgreSQL
+      systemd:
+        name: postgresql
+        state: started
+        enabled: true
